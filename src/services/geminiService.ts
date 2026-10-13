@@ -1,7 +1,12 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { QuizQuestion } from "../types";
 
-const getAi = () => new GoogleGenAI({ apiKey: process.env.API_KEY || process.env.GEMINI_API_KEY || '' });
+const getAi = () => {
+  const key = (typeof process !== 'undefined' && process.env?.API_KEY) || 
+              (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || 
+              '';
+  return new GoogleGenAI({ apiKey: key });
+};
 
 export interface ExtractedRecipe {
   title: string;

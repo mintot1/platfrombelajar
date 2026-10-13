@@ -702,9 +702,15 @@ export default function App() {
     }
   };
 
-  // Auth Listener
+  // Auth Listener with Safety Timeout
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+      setHouseholdsLoading(false);
+    }, 2000);
+
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
+      clearTimeout(timeout);
       setUser(u);
       if (u) {
         try {
@@ -720,8 +726,15 @@ export default function App() {
         }
       }
       setLoading(false);
+    }, (error) => {
+      console.error("Auth state error:", error);
+      clearTimeout(timeout);
+      setLoading(false);
     });
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(timeout);
+      unsubscribe();
+    };
   }, []);
 
   // Demo / Guest Sign In for local preview & offline resilience
