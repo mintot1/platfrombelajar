@@ -1283,7 +1283,7 @@ export default function App() {
                 <Brain className="w-3.5 h-3.5" /> IQ {userIq}
               </span>
             </div>
-            <p className="text-stone-500 dark:text-stone-400 italic">Siap mengasah otak hari ini? Let him cook! 🧠🔥</p>
+            <p className="text-stone-500 dark:text-stone-400 italic">Siap mengasah otak hari ini? Let him cook!</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={() => setIsGenerateModalOpen(true)} className="dark:bg-stone-800 dark:text-stone-200 dark:hover:bg-stone-700">
@@ -2073,7 +2073,7 @@ export default function App() {
             </p>
           </div>
           <Button className="w-full py-4 mt-4 text-base" onClick={() => setIsFirstFamilyModalOpen(false)}>
-            Mulai Belajar (Let Him Cook! 🔥)
+            Mulai Belajar (Let Him Cook!)
           </Button>
         </div>
       </Modal>
