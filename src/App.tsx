@@ -302,7 +302,7 @@ function getIqTier(iq: number): { label: string; color: string; desc: string } {
   } else if (iq >= 105) {
     return { label: "Cerdas (Active Thinker)", color: "text-emerald-500", desc: "Kemampuan problem solving kuat dan pemahaman materi yang terstruktur." };
   } else {
-    return { label: "Pemula (Curious Learner)", color: "text-stone-500", desc: "Fase eksplorasi awal. Setiap kuis yang kamu selesaikan akan menaikkan skor IQ kamu!" };
+    return { label: "Pemula (Curious Learner)", color: "text-stone-500", desc: "Fase eksplorasi awal. Setiap kuis yang kamu selesaikan akan menaikkan skor EXP kamu!" };
   }
 }
 
@@ -1251,7 +1251,7 @@ export default function App() {
             <button 
               onClick={() => setIsProfileModalOpen(true)}
               className="flex items-center gap-2.5 p-1 sm:px-3 sm:py-1.5 rounded-full hover:bg-stone-200/60 dark:hover:bg-stone-800/60 transition-all cursor-pointer group"
-              title="Buka Profil & Statistik IQ"
+              title="Buka Profil & Statistik EXP"
             >
               <img 
                 src={user.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'} 
@@ -1262,7 +1262,7 @@ export default function App() {
               <div className="hidden md:flex flex-col text-left">
                 <span className="text-xs font-bold leading-tight text-stone-800 dark:text-stone-100">{user.displayName?.split(' ')[0]}</span>
                 <span className="text-[11px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                  <Zap className="w-3 h-3 fill-current" /> IQ {userIq}
+                  <Zap className="w-3 h-3 fill-current" /> EXP {userIq}
                 </span>
               </div>
             </button>
@@ -1280,7 +1280,7 @@ export default function App() {
             <div className="flex items-center gap-2">
               <h2 className="text-4xl font-serif font-bold text-stone-900 dark:text-stone-50">Welcome, {user.displayName?.split(' ')[0]}</h2>
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-xs">
-                <Brain className="w-3.5 h-3.5" /> IQ {userIq}
+                <Brain className="w-3.5 h-3.5" /> Skor EXP {userIq}
               </span>
             </div>
             <p className="text-stone-500 dark:text-stone-400 italic">Siap mengasah otak hari ini? Let him cook!</p>
@@ -1705,11 +1705,11 @@ export default function App() {
         </div>
       </Modal>
 
-      {/* --- User Profile & IQ Modal --- */}
+      {/* --- User Profile & EXP Modal --- */}
       <Modal 
         isOpen={isProfileModalOpen} 
         onClose={() => setIsProfileModalOpen(false)} 
-        title="Profil & Tingkat IQ Pengguna"
+        title="Profil & Tingkat EXP Pengguna"
       >
         <div className="space-y-8">
           {/* User Header Profile */}
@@ -1729,16 +1729,16 @@ export default function App() {
             </div>
           </div>
 
-          {/* Main IQ Dashboard Display */}
+          {/* Main EXP Dashboard Display */}
           <div className="p-6 bg-gradient-to-br from-stone-900 to-stone-800 text-white rounded-3xl shadow-xl space-y-4">
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-xs uppercase font-extrabold tracking-widest text-amber-400 flex items-center gap-1">
-                  <Brain className="w-4 h-4" /> Skor IQ Hasil Belajar
+                  <Brain className="w-4 h-4" /> Skor EXP Hasil Belajar
                 </span>
                 <div className="text-5xl font-serif font-extrabold text-stone-50 tracking-tight mt-1 flex items-baseline gap-2">
                   <span>{userIq}</span>
-                  <span className="text-sm font-sans text-stone-400 font-normal">Poin IQ</span>
+                  <span className="text-sm font-sans text-stone-400 font-normal">Skor EXP</span>
                 </div>
               </div>
               <div className="px-3 py-1.5 rounded-full bg-stone-800/80 border border-stone-700 text-amber-400 text-xs font-bold flex items-center gap-1">
@@ -1765,7 +1765,7 @@ export default function App() {
                 />
               </div>
               <p className="text-[11px] text-stone-400 italic text-center pt-1">
-                Rumus: Base IQ (100) + Poin Tambahan dari Akurasi Kuis Materi yang Diselesaikan.
+                Rumus: Base EXP (100) + Poin Tambahan dari Akurasi Kuis Materi yang Diselesaikan.
               </p>
             </div>
           </div>
@@ -1785,7 +1785,7 @@ export default function App() {
               <p className="text-2xl font-bold text-amber-500">{accuracyRate}%</p>
             </div>
             <div className="p-4 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 text-center space-y-1">
-              <span className="text-xs text-stone-400 font-bold uppercase">Bonus IQ</span>
+              <span className="text-xs text-stone-400 font-bold uppercase">Bonus EXP</span>
               <p className="text-2xl font-bold text-emerald-500">+{Math.max(0, userIq - 100)}</p>
             </div>
           </div>
@@ -1802,7 +1802,7 @@ export default function App() {
                       <span className="text-[11px] text-stone-400">Skor: {item.score}/{item.totalQuestions} ({item.percentage}%)</span>
                     </div>
                     <span className="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
-                      +{item.iqGained} IQ
+                      +{item.iqGained} EXP
                     </span>
                   </div>
                 ))}
@@ -1810,7 +1810,7 @@ export default function App() {
             ) : (
               <div className="p-6 text-center rounded-2xl bg-stone-100/60 dark:bg-stone-800/60 space-y-2">
                 <p className="text-sm text-stone-500">Belum ada materi atau kuis yang diselesaikan.</p>
-                <p className="text-xs text-stone-400">Klik salah satu materi di beranda dan ikuti kuisnya untuk menaikkan skor IQ kamu!</p>
+                <p className="text-xs text-stone-400">Klik salah satu materi di beranda dan ikuti kuisnya untuk menaikkan skor EXP kamu!</p>
               </div>
             )}
           </div>
