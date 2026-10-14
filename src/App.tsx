@@ -292,17 +292,17 @@ function getMaterialQuiz(material: Recipe): QuizQuestion[] {
   ];
 }
 
-function getIqTier(iq: number): { label: string; color: string; desc: string } {
+function getIqTier(iq: number): { level: number; label: string; color: string; desc: string } {
   if (iq >= 135) {
-    return { label: "Genius Cook! 🔥", color: "text-amber-500", desc: "Kapasitas intelektual sangat istimewa (Top 1%). Otakmu sedang dalam performa puncak!" };
+    return { level: 5, label: "Level 5 — Master 🔥", color: "text-amber-500", desc: "Level tertinggi (Top Tier)! Terus pertahankan konsistensi belajarmu di performa puncak." };
   } else if (iq >= 125) {
-    return { label: "Cendekiawan (Superior)", color: "text-purple-500", desc: "Tingkat pemikiran analitis tingkat tinggi dan kemampuan sintesis data yang tajam." };
+    return { level: 4, label: "Level 4 — Expert", color: "text-purple-500", desc: "Tingkat penguasaan materi tinggi dengan akumulasi perolehan EXP yang konsisten." };
   } else if (iq >= 115) {
-    return { label: "Sangat Cerdas (High Intellectual)", color: "text-blue-500", desc: "Daya tangkap logika cepat di atas rata-rata dengan konsistensi belajar tinggi." };
+    return { level: 3, label: "Level 3 — Advanced", color: "text-blue-500", desc: "Progres belajar pesat dengan kemampuan menyelesaikan kuis berbobot di atas rata-rata." };
   } else if (iq >= 105) {
-    return { label: "Cerdas (Active Thinker)", color: "text-emerald-500", desc: "Kemampuan problem solving kuat dan pemahaman materi yang terstruktur." };
+    return { level: 2, label: "Level 2 — Intermediate", color: "text-emerald-500", desc: "Pemahaman konsep terstruktur dan aktif menyelesaikan berbagai kuis evaluasi." };
   } else {
-    return { label: "Pemula (Curious Learner)", color: "text-stone-500", desc: "Fase eksplorasi awal. Setiap kuis yang kamu selesaikan akan menaikkan skor EXP kamu!" };
+    return { level: 1, label: "Level 1 — Novice (Pemula)", color: "text-stone-500", desc: "Fase eksplorasi awal. Setiap kuis yang kamu selesaikan akan menaikkan skor EXP dan Level kamu!" };
   }
 }
 
@@ -1151,7 +1151,7 @@ export default function App() {
           </div>
           <div className="space-y-2">
             <h1 className="text-5xl font-bold text-stone-900 dark:text-stone-50 tracking-tight">Let Me Cook</h1>
-            <p className="text-stone-500 dark:text-stone-400 text-lg">Ruang belajar interaktif & uji kuis cerdas untuk menaikkan skor IQ kamu.</p>
+            <p className="text-stone-500 dark:text-stone-400 text-lg">Ruang belajar interaktif & uji kuis cerdas untuk menaikkan skor EXP dan level kamu.</p>
           </div>
           <div className="space-y-3 pt-2">
             <Button onClick={signIn} className="w-full py-4 text-lg shadow-lg">
@@ -1221,7 +1221,7 @@ export default function App() {
           </div>
           <div className="flex flex-col">
             <h1 className="text-2xl font-serif font-bold tracking-tight leading-none hidden sm:block">Let Me Cook</h1>
-            <span className="text-[10px] tracking-wider uppercase font-semibold text-stone-400 hidden sm:block">Brain & Quiz Hub</span>
+            <span className="text-[10px] tracking-wider uppercase font-semibold text-stone-400 hidden sm:block">Level & Quiz Hub</span>
           </div>
         </div>
 
@@ -1279,11 +1279,11 @@ export default function App() {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <h2 className="text-4xl font-serif font-bold text-stone-900 dark:text-stone-50">Welcome, {user.displayName?.split(' ')[0]}</h2>
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-xs">
-                <Brain className="w-3.5 h-3.5" /> Skor EXP {userIq}
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-xs">
+                <Zap className="w-3.5 h-3.5 fill-current text-amber-500" /> Lv. {iqTier.level} • {userIq} EXP
               </span>
             </div>
-            <p className="text-stone-500 dark:text-stone-400 italic">Siap mengasah otak hari ini? Let him cook!</p>
+            <p className="text-stone-500 dark:text-stone-400 italic">Siap naik level & kumpulkan EXP hari ini? Let him cook!</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={() => setIsGenerateModalOpen(true)} className="dark:bg-stone-800 dark:text-stone-200 dark:hover:bg-stone-700">
@@ -1571,7 +1571,7 @@ export default function App() {
                         {currentQuestionIdx + 1 < quizQuestions.length ? (
                           <>Lanjut Soal Berikutnya <ArrowRight className="w-4 h-4" /></>
                         ) : (
-                          <>Selesaikan Kuis & Cek IQ <Trophy className="w-4 h-4 text-amber-400" /></>
+                          <>Selesaikan Kuis & Dapatkan EXP <Trophy className="w-4 h-4 text-amber-400" /></>
                         )}
                       </Button>
                     </div>
@@ -1594,14 +1594,14 @@ export default function App() {
                     </p>
                   </div>
 
-                  {/* IQ Reward Notification */}
+                  {/* EXP Reward Notification */}
                   <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl max-w-sm mx-auto space-y-1">
                     <div className="text-sm font-bold text-emerald-700 dark:text-emerald-300 flex items-center justify-center gap-1.5">
                       <Zap className="w-4 h-4 fill-current text-amber-500" />
-                      +{recentIqGained > 0 ? recentIqGained : 1} Poin IQ Didapatkan!
+                      +{recentIqGained > 0 ? recentIqGained : 1} EXP Didapatkan!
                     </div>
                     <p className="text-xs text-stone-600 dark:text-stone-400">
-                      Total IQ kamu sekarang: <strong className="text-stone-900 dark:text-stone-100 font-extrabold text-sm">{userIq}</strong> ({iqTier.label})
+                      Total EXP kamu sekarang: <strong className="text-stone-900 dark:text-stone-100 font-extrabold text-sm">{userIq}</strong> ({iqTier.label})
                     </p>
                   </div>
 
@@ -1705,11 +1705,11 @@ export default function App() {
         </div>
       </Modal>
 
-      {/* --- User Profile & EXP Modal --- */}
+      {/* --- User Profile & Level Modal --- */}
       <Modal 
         isOpen={isProfileModalOpen} 
         onClose={() => setIsProfileModalOpen(false)} 
-        title="Profil & Tingkat EXP Pengguna"
+        title="Profil & Tingkat Level Pelajar"
       >
         <div className="space-y-8">
           {/* User Header Profile */}
@@ -1734,15 +1734,15 @@ export default function App() {
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-xs uppercase font-extrabold tracking-widest text-amber-400 flex items-center gap-1">
-                  <Brain className="w-4 h-4" /> Skor EXP Hasil Belajar
+                  <Zap className="w-4 h-4 fill-current" /> Skor EXP & Tingkat Level
                 </span>
                 <div className="text-5xl font-serif font-extrabold text-stone-50 tracking-tight mt-1 flex items-baseline gap-2">
                   <span>{userIq}</span>
-                  <span className="text-sm font-sans text-stone-400 font-normal">Skor EXP</span>
+                  <span className="text-sm font-sans text-stone-400 font-normal">Total EXP</span>
                 </div>
               </div>
               <div className="px-3 py-1.5 rounded-full bg-stone-800/80 border border-stone-700 text-amber-400 text-xs font-bold flex items-center gap-1">
-                <Zap className="w-3.5 h-3.5 fill-current" /> Active Status
+                <Award className="w-3.5 h-3.5" /> Level {iqTier.level}
               </div>
             </div>
 
@@ -1753,10 +1753,11 @@ export default function App() {
             {/* Scale Gauge */}
             <div className="space-y-1.5 pt-2">
               <div className="flex justify-between text-[11px] font-bold text-stone-400">
-                <span>Rata-rata: 100</span>
-                <span>Cerdas: 115</span>
-                <span>Superior: 125</span>
-                <span>Genius: 135+</span>
+                <span>Lv. 1 (100)</span>
+                <span>Lv. 2 (105)</span>
+                <span>Lv. 3 (115)</span>
+                <span>Lv. 4 (125)</span>
+                <span>Lv. 5 (135+)</span>
               </div>
               <div className="w-full h-3 bg-stone-800 rounded-full overflow-hidden p-0.5 border border-stone-700">
                 <div 
@@ -1765,7 +1766,7 @@ export default function App() {
                 />
               </div>
               <p className="text-[11px] text-stone-400 italic text-center pt-1">
-                Rumus: Base EXP (100) + Poin Tambahan dari Akurasi Kuis Materi yang Diselesaikan.
+                Rumus: Base EXP (100) + Poin Tambahan dari Akurasi Kuis untuk Naik Level.
               </p>
             </div>
           </div>
